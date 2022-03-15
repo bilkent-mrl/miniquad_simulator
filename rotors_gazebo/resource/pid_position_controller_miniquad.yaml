@@ -1,0 +1,30 @@
+
+# PID position controller parameters.
+    
+    # mass: mass of the drone. same as the (mav_name).xacro folder. If the drone has IMU or GPS add 0.015 kg for each. 
+    # rotor_force_constant: same as the (mav_name).xacro folder.
+    
+
+    # P: Proportional Gain
+    # I: Integral Gain
+    # D: Derrivative Gain
+    # Output Limits: Minimum and Maximum values the controller can output.
+    # Integral Term Limit: Maximum absolute value the integral term of the PID can reach.
+
+mass: 0.221
+mass_rotor: 0.0007
+motor_constant: 7.18e-07 
+
+
+altitude_gain: {P: 50, I: 0, D: 80, Output Limits: [-80, 80], Integral Term Limit: 1}
+
+position_x_gain: {P: 0.015, I: 0.0, D: 0.06, Output Limits: [-0.5,0.5], Integral Term Limit: 1}
+position_y_gain: {P: -0.015, I: -0.0, D: -0.06, Output Limits: [-0.5, 0.5], Integral Term Limit: 1}
+
+attitude_roll_gain: {P: 5.0, I: 0.0, D: 0.01 , Output Limits: [-10, 10], Integral Term Limit: 0.001}
+attitude_pitch_gain:  {P: 5.0, I: 0.0, D: 0.01, Output Limits: [-10, 10], Integral Term Limit: 0.001}
+attitude_yaw_gain:  {P: 0, I: 0, D: 0, Output Limits: [-1, 1], Integral Term Limit: 1}
+
+angular_rate_roll_gain:  {P: 8.0, I: 0.0, D: 0.02, Output Limits: [-20, 20], Integral Term Limit: 0.001}
+angular_rate_pitch_gain:  {P: 8.0, I: 0.0, D: 0.02, Output Limits: [-20, 20], Integral Term Limit: 0.001}
+angular_rate_yaw_gain:  {P: 1, I: 0, D: 0, Output Limits: [-200, 200], Integral Term Limit: 1}
