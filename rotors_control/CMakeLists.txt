@@ -74,4 +74,4 @@ install(
   FILES_MATCHING PATTERN "*.h"
 )
 
-catkin_install_python(PROGRAMS src/pid_position_controller.py src/pid_rpyt_controller.py src/miniquad_controller.py DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+catkin_install_python(PROGRAMS src/pid_position_controller.py src/pid_rpyt_controller.py DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
