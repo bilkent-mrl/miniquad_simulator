@@ -159,10 +159,12 @@ class PID():
 
         self._derivative = - self.Kd * d_input / dt
         self.time_data=[dt, bool(now - self._last_time), now, self._last_time]
+
         # Compute final output
         output = self._proportional + self._integral + self._derivative
         output = self.__clamp__(output, self.output_limits)
         self._integral=self._integral*0.8
+        
         # Keep track of state
         self._last_output = output
         self._last_input = input_
@@ -527,7 +529,7 @@ class Controller():
         self.throttle_controller.setpoint= self.ThrottleDes.z
         throttle = self.throttle_controller(self.position.z) + self.hovering_throttle
         state= [self.ThrottleDes.z, self.position.z, throttle ]
-        print("altitude_desired: %.18f, position_z: %.18f, throttle: %.18f", self.ThrottleDes.z, self.position.z, throttle)
+        print("altitude_desired: %f, position_z: %f, throttle: %f".format(self.ThrottleDes.z, self.position.z, throttle))
 
         dt, bool_, now, last_time= self.throttle_controller.get_time_data()
         print("dt, bool_, now, last_time",dt, bool_, now, last_time  )
@@ -537,11 +539,18 @@ class Controller():
 
 
         self.position_controller_x.setpoint=self.desired_position.x
-        PitchDes   = self.position_controller_x(self.position.x)
+        V_X_Des   = self.position_controller_x(self.position.x)
 
         
         self.position_controller_y.setpoint=self.desired_position.y 
-        RollDes  = self.position_controller_y(self.position.y)
+        V_Y_Des  = self.position_controller_y(self.position.y)
+
+
+        # Apply a rotation matrix to desired positions. (Desired positions are w.r.t. global frame)
+        theta= - self.orientation.z # Multiply by (-) due to difference between angle conventions. 
+
+        PitchDes = np.cos(theta)*V_X_Des + np.sin(theta)*V_Y_Des
+        RollDes= - np.sin(theta)*V_X_Des + np.cos(theta)*V_Y_Des
 
         state=[self.desired_position.x, self.desired_position.y, self.position.x, self.position.y ]
         #self.attitute_controller_yaw.setpoint= YawDes
