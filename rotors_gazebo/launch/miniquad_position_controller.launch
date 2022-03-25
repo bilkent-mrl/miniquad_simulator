@@ -13,6 +13,7 @@
 
   <env name="GAZEBO_MODEL_PATH" value="${GAZEBO_MODEL_PATH}:$(find rotors_gazebo)/models"/>
   <env name="GAZEBO_RESOURCE_PATH" value="${GAZEBO_RESOURCE_PATH}:$(find rotors_gazebo)/models"/>
+
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="world_name" value="$(find rotors_gazebo)/worlds/$(arg world_name).world" />
     <arg name="debug" value="$(arg debug)" />
@@ -29,7 +30,7 @@
       <arg name="enable_ground_truth" value="$(arg enable_ground_truth)" />
       <arg name="log_file" value="$(arg log_file)"/>
     </include>
-
+    <!-- initiate pid position controller node -->
     <node pkg="rotors_control" type="pid_position_controller.py" name="pid_rpyt_controller" output="screen">
       <rosparam command="load" file="$(find rotors_gazebo)/resource/pid_position_controller_$(arg mav_name).yaml" />
       <param name="mav_name" value="$(arg mav_name)"/>

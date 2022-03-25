@@ -1,40 +1,37 @@
 <?xml version="1.0"?>
 <!--
-  Copyright  mrl
-
+  Copyright 2022, Bilkent University Miniature Robotics Laboratory 
 -->
 
 <robot name="miniquad" xmlns:xacro="http://ros.org/wiki/xacro">
+
   <!-- Properties (Taken from Novel Dynamic Inversion Architecture Design
 for Quadrocopter Control by Jian Wang et al.) 
-
-NOTE: MINI QUAD ARM LENGTH IS 80 MM * SQRT 2, HERE WE USED 80 SO THA
-
 -->
 
   <xacro:property name="namespace" value="$(arg namespace)" />
   <xacro:property name="rotor_velocity_slowdown_sim" value="10 " />
   <xacro:property name="use_mesh_file" value="true" />
   <xacro:property name="mesh_file" value="package://rotors_description/meshes/miniquad.dae" />
-  <xacro:property name="mass" value="0.1913" /> <!-- [kg] updated -->
-  <xacro:property name="body_width" value="0.16" /> <!-- [m] updated -->
-  <xacro:property name="body_height" value="0.02" /> <!-- [m] updated -->
-  <xacro:property name="mass_rotor" value="0.00073" /> <!-- [kg] updated-->
-  <xacro:property name="arm_length" value="0.113" /> <!-- [m] updated-->
-  <xacro:property name="rotor_offset_top" value="0.03" /> <!-- [m] updated-->
-  <xacro:property name="radius_rotor" value="0.0445" /> <!-- [m] updated -->
-  <xacro:property name="sin45" value="0.707106781186" />  
-  <xacro:property name="cos45" value="0.707106781186" />
-  <xacro:property name="motor_constant" value="7.18e-07" /> <!-- from notespdf -->
-  <xacro:property name="moment_constant" value="0.00944" /> <!-- [m] from notes.pdf, UPDATE: neglecting this caused yaw err. Thus this was recalculated. as 0.00944 -->
-  <xacro:property name="time_constant_up" value="0.0025" /> <!-- [s] default -->
-  <xacro:property name="time_constant_down" value="0.0005" /> <!-- [s] default -->
+  <xacro:property name="mass" value="0.1913" /> <!-- [kg] -->
+  <xacro:property name="body_width" value="0.16" /> <!-- [m] -->
+  <xacro:property name="body_height" value="0.02" /> <!-- [m] -->
+  <xacro:property name="mass_rotor" value="0.00073" /> <!-- [kg] -->
+  <xacro:property name="arm_length" value="0.113" /> <!-- [m] -->
+  <xacro:property name="rotor_offset_top" value="0.03" /> <!-- [m] -->
+  <xacro:property name="radius_rotor" value="0.0445" /> <!-- [m]  -->
+  <xacro:property name="sin45" value="0.707106781186" />  <!-- [rad]  -->
+  <xacro:property name="cos45" value="0.707106781186" />  <!-- [rad]  -->
+  <xacro:property name="motor_constant" value="7.18e-07" /> <!--[Ns/rad] -->
+  <xacro:property name="moment_constant" value="0.00944" /> <!-- [m] -->
+  <xacro:property name="time_constant_up" value="0.0025" /> <!-- [s]  -->
+  <xacro:property name="time_constant_down" value="0.0005" /> <!-- [s]  -->
   <xacro:property name="max_rot_velocity" value="3142" /> <!-- [rad/s] -->
   <xacro:property name="rotor_drag_coefficient" value="0" /> <!-- neglected  --> 
-  <xacro:property name="rolling_moment_coefficient" value="0.000000" />  <!-- left as default  --> 
+  <xacro:property name="rolling_moment_coefficient" value="0.000000" />  <!-- neglected / set to zero.   --> 
 
   <!-- Property Blocks -->
-  <!-- Body inertia taken from Amirali's matlab code -->
+  <!-- Body inertia is experimentally determined. Taken from Amirali's Simulink simulation.  -->
   <xacro:property name="body_inertia">
     <inertia ixx="0.000399" ixy="0.0" ixz="0.0" iyy="0.000401" iyz="0.0" izz="0.0008" /> <!-- [kg m^2] [kg m^2] [kg m^2] [kg m^2] [kg m^2] [kg m^2] -->
   </xacro:property>

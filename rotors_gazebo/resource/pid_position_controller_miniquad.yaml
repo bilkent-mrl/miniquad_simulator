@@ -1,4 +1,3 @@
-
 # PID position controller parameters.
     
     # mass: mass of the drone. same as the (mav_name).xacro folder. If the drone has IMU or GPS add 0.015 kg for each. 
