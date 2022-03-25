@@ -20,8 +20,8 @@ altitude_gain: {P: 50, I: 0, D: 80, Output Limits: [-80, 80], Integral Term Limi
 
 attitude_roll_gain: {P: 5.0, I: 0.0, D: 0.01 , Output Limits: [-10, 10], Integral Term Limit: 0.001}
 attitude_pitch_gain:  {P: 5.0, I: 0.0, D: 0.01, Output Limits: [-10, 10], Integral Term Limit: 0.001}
-attitude_yaw_gain:  {P: 0, I: 0, D: 0, Output Limits: [-1, 1], Integral Term Limit: 1}
+attitude_yaw_gain:  {P: 5, I: 0, D: 2, Output Limits: [-1, 1], Integral Term Limit: 1}
 
 angular_rate_roll_gain:  {P: 8.0, I: 0.0, D: 0.02, Output Limits: [-20, 20], Integral Term Limit: 0.001}
 angular_rate_pitch_gain:  {P: 8.0, I: 0.0, D: 0.02, Output Limits: [-20, 20], Integral Term Limit: 0.001}
-angular_rate_yaw_gain:  {P: 1, I: 0, D: 0, Output Limits: [-200, 200], Integral Term Limit: 1}
+angular_rate_yaw_gain:  {P: 36.0, I: 0.0, D: 0.1, Output Limits: [-200, 200], Integral Term Limit: 1}
