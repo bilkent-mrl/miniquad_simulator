@@ -1,9 +1,11 @@
 <?xml version="1.0"?>
+
+
 <!--
   Copyright 2022, Bilkent University Miniature Robotics Laboratory 
 -->
 
-<robot name="miniquad" xmlns:xacro="http://ros.org/wiki/xacro">
+<robot name="mq" xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:include filename="$(find rotors_description)/urdf/component_snippets.xacro" />
   <!-- Instantiate hummingbird "mechanics" -->
   <xacro:include filename="$(find rotors_description)/urdf/miniquad.xacro" />
@@ -11,10 +13,10 @@
   <!-- Instantiate a controller. -->
   <xacro:controller_plugin_macro namespace="${namespace}" imu_sub_topic="imu" />
 
-  <xacro:if value="$(arg enable_mavlink_interface)">
-    <!-- Instantiate mavlink telemetry interface. -->
+  <!-- <xacro:if value="$(arg enable_mavlink_interface)">
+
     <xacro:default_mavlink_interface namespace="${namespace}" imu_sub_topic="imu" rotor_count="4" />
-  </xacro:if>
+  </xacro:if> -->
 
   <!-- Mount an ADIS16448 IMU. -->
   <xacro:default_imu namespace="${namespace}" parent_link="${namespace}/base_link" />
@@ -23,18 +25,17 @@
   <xacro:default_gps namespace="${namespace}" parent_link="${namespace}/base_link" />
 
 
-  <xacro:if value="$(arg enable_ground_truth)">
+  <!-- <xacro:if value="$(arg enable_ground_truth)">
     <xacro:ground_truth_imu_and_odometry namespace="${namespace}" parent_link="${namespace}/base_link" />
-  </xacro:if>
-
+  </xacro:if> -->
+<!-- 
   <xacro:if value="$(arg enable_logging)">
-    <!-- Instantiate a logger -->
     <xacro:bag_plugin_macro
       namespace="${namespace}"
       bag_file="$(arg log_file)"
       rotor_velocity_slowdown_sim="${rotor_velocity_slowdown_sim}"
       wait_to_record_bag="$(arg wait_to_record_bag)" />
-  </xacro:if>
+  </xacro:if> -->
 
 </robot>
 

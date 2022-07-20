@@ -15,7 +15,7 @@ mass_rotor: 0.0007
 motor_constant: 7.18e-07 
 
 
-altitude_gain: {P: 50, I: 0, D: 80, Output Limits: [-80, 80], Integral Term Limit: 1}
+altitude_gain: {P: 50, I: 0, D: 30, Output Limits: [-300, 300], Integral Term Limit: 1}
 
 position_x_gain: {P: 0.015, I: 0.0, D: 0.06, Output Limits: [-0.5,0.5], Integral Term Limit: 1}
 position_y_gain: {P: -0.015, I: -0.0, D: -0.06, Output Limits: [-0.5, 0.5], Integral Term Limit: 1}
