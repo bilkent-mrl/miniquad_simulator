@@ -20,6 +20,7 @@ for Quadrocopter Control by Jian Wang et al.)
   <xacro:property name="arm_length" value="0.053" /> <!-- [m] -->
   <xacro:property name="arm_width" value="0.05" /> <!-- [m] -->
   <xacro:property name="arm_mass" value="0.001" /> <!-- [m] -->
+  <xacro:property name="rotor_dist" value="0.053" /> <!-- [m] -->
   <xacro:property name="rotor_offset_top" value="0.005" /> <!-- [m] -->
   <xacro:property name="radius_rotor" value="0.0445" /> <!-- [m]  -->
   <xacro:property name="sin45" value="0.707106781186" />  <!-- [rad]  -->
@@ -107,7 +108,7 @@ for Quadrocopter Control by Jian Wang et al.)
   <!-- Instantiate rotors -->
   <xacro:vertical_rotor
     robot_namespace="${namespace}"
-    suffix="front-right"
+    suffix="back-right"
     direction="cw"
     motor_constant="${motor_constant}"
     moment_constant="${moment_constant}"
@@ -129,7 +130,7 @@ for Quadrocopter Control by Jian Wang et al.)
 
   <xacro:vertical_rotor
     robot_namespace="${namespace}"
-    suffix="back-right"
+    suffix="back-left"
     direction="ccw"
     motor_constant="${motor_constant}"
     moment_constant="${moment_constant}"
@@ -151,7 +152,7 @@ for Quadrocopter Control by Jian Wang et al.)
 
   <xacro:vertical_rotor
     robot_namespace="${namespace}"
-    suffix="back-left"
+    suffix="front-left"
     direction="cw"
     motor_constant="${motor_constant}"
     moment_constant="${moment_constant}"
@@ -173,7 +174,7 @@ for Quadrocopter Control by Jian Wang et al.)
 
   <xacro:vertical_rotor
     robot_namespace="${namespace}"
-    suffix="front-left"
+    suffix="front-right"
     direction="ccw"
     motor_constant="${motor_constant}"
     moment_constant="${moment_constant}"

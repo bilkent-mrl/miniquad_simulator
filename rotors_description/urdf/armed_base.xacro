@@ -57,7 +57,7 @@ MESH FIX FOR THE ARM -->
     <link name="${robot_namespace}/base_link_inertia">
       <inertial>
         <mass value="0.131" />  <!-- [kg] -->
-        <origin xyz="-0.00694 0.00190 0.02482" />
+        <origin xyz="0.0 0.00 0.0" />  <!-- [m] -->
         <inertia ixx="76498.19e-9" ixy="-138.41e-9" ixz="14011.69e-9" iyy="80911.82e-9" iyz="2914.65e-9" izz="40328.57e-9" /> 
         
       </inertial>
@@ -92,8 +92,8 @@ MESH FIX FOR THE ARM -->
   <xacro:macro name="arm_rotor"
     params="robot_namespace suffix motor_number *origin color">
     <joint name="${robot_namespace}/arm_${motor_number}_joint" type="revolute" >
-      <limit lower="-1.52" upper="1.52" effort="-1" velocity="-1"/>
-      <dynamics damping="1" friction="1" /> 
+      <limit lower="-2" upper="2" effort="100" velocity="100"/>
+      <dynamics damping="0.0001" friction="0.0001" /> 
       <xacro:insert_block name="origin" />
       <axis xyz="0 0 1" />
       <!-- <limit lower="0" upper="1" effort="-1" velocity="-1" /> -->
@@ -157,7 +157,7 @@ MESH FIX FOR THE ARM -->
       <inertial>
         <mass value="0.0071" /> <!-- [kg] -->
         <origin xyz="23.51e-3 0 -3.48e-3" rpy="0 0 0" />
-        <inertia ixx="302.58e-9" ixy="0" ixz="55.52" iyy="569.34e-9" iyz="0" izz="841.34e-9" /> 
+        <inertia ixx="302.58e-9" ixy="0" ixz="55.52e-9" iyy="569.34e-9" iyz="0" izz="841.34e-9" /> 
       </inertial>
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
@@ -176,6 +176,18 @@ MESH FIX FOR THE ARM -->
     <gazebo reference="${robot_namespace}/arm_${motor_number}">
       <material>Gazebo/${color}</material>
     </gazebo>
+
+    <gazebo>
+    <!-- joint torsional spring plugin -->
+    <plugin name="arm_${motor_number}_joint_torsional_spring" filename="libgazebo_joint_torsional_spring.so">
+      <kx>0.5</kx>
+      <set_point>0.0</set_point>
+      <joint>${robot_namespace}/arm_${motor_number}_joint</joint>
+    </plugin>
+  </gazebo>
+
+
+  
   </xacro:macro>
 
 

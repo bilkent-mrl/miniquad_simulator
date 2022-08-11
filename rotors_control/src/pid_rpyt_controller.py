@@ -339,7 +339,7 @@ class SubIMU():
         
         """Read in parameters."""
      
-        self.Sub_to_Topic="ground_truth/imu"
+        self.Sub_to_Topic="imu"
         self.enable = True
         if self.enable:
             self.start()
@@ -554,18 +554,16 @@ class Controller():
         
         self.rate_controller_roll.setpoint=dRollDes
         ddRoll=self.rate_controller_roll(self.angularvelocity.x)
-    
+        
        
         self.rate_controller_pitch.setpoint=dPitchDes
         ddPitch=self.rate_controller_pitch(self.angularvelocity.y)
+   
         
-        print(self.YawRateDes, "yrd")
-
         self.rate_controller_yaw.setpoint=self.YawRateDes
         ddYaw=self.rate_controller_yaw(self.angularvelocity.z)
-        print(ddYaw, "ddyaw")
- 
 
+        
         #log data
         state=[dRollDes, dPitchDes, self.YawRateDes, self.angularvelocity.x, self.angularvelocity.y, self.angularvelocity.z, ddRoll, ddPitch, ddYaw]
 
@@ -596,7 +594,7 @@ class Controller():
 
             #state =[self.ThrottleDes.z, self.position.z, throttle, 0, 0, 0, self.orientation.x, self.orientation.y, self.orientation.z, 0,0,0, RollRate, PitchRate, YawRate, self.angularvelocity.x, self.angularvelocity.y, self.angularvelocity.z, ddRoll, ddPitch, ddYaw, 0,0,0, current_time ]
             #self.log.append(state)
-
+       
             return [motor0, motor1, motor2, motor3]
         
 
@@ -711,7 +709,7 @@ class Controller():
             rospy.set_param(angular_rate_yaw_gain+"/P", rate_yaw_p)
             rospy.set_param(angular_rate_yaw_gain+"/I", rate_yaw_i)
             rospy.set_param(angular_rate_yaw_gain+"/D", rate_yaw_d)
-            self.initialize_pid
+            self.initialize_pid()
        
         
         self.rate_controller_tuning_mode = config["rate_controller_tuning_mode"]
@@ -722,7 +720,8 @@ class Controller():
             yaw_rate=config["yaw_rate"]
             self.tuning_inputs=[roll_rate,pitch_rate,yaw_rate]
         
-       
+
+
         
         return config
      
@@ -860,7 +859,7 @@ if __name__ == "__main__":
     PubMotor=PubMotorSpeed((controller()))
 
 
-    #PubAngle=PubEulerAngles([0,0,0])
+    PubAngle=PubEulerAngles([0,0,0])
 
 
     while not rospy.is_shutdown():
@@ -878,7 +877,7 @@ if __name__ == "__main__":
 
         #Publish Euler Angles of the drone. This can be used for PID Tuning via rqt_plot tool.
         
-        #PubAngle.timer_cb([controller.orientation.x, controller.orientation.y, controller.orientation.z])
+        PubAngle.timer_cb([controller.orientation.x, controller.orientation.y, controller.orientation.z])
 
         #publish the rotor velocities
         PubMotor.timer_cb(RotorVels)
