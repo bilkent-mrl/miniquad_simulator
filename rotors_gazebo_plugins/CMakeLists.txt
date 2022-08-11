@@ -317,6 +317,12 @@ if (NOT NO_ROS)
   list(APPEND targets_to_install rotors_gazebo_imu_plugin)
 endif()
 
+
+
+add_library(gazebo_joint_torsional_spring SHARED src/gazebo_joint_torsional_spring.cpp)
+target_link_libraries(gazebo_joint_torsional_spring ${target_linking_LIBRARIES} )
+add_dependencies(gazebo_joint_torsional_spring ${catkin_EXPORTED_TARGETS})
+list(APPEND targets_to_install gazebo_joint_torsional_spring)
 #========================================= NoisyDepth PLUGIN ======================================//
 if (NOT NO_ROS)
   if(${gazebo_dev_FOUND})

@@ -522,17 +522,20 @@ class Controller():
         motor_constant=rospy.get_param(motor_constant)
         self.hovering_throttle=np.sqrt( (mass*9.81/4) / motor_constant) 
         
-        self.hovering_throttle=874
+        self.hovering_throttle=865
 
 
     def altitude_controller(self):
         self.throttle_controller.setpoint= self.ThrottleDes.z
-        throttle = self.throttle_controller(self.position.z) + self.hovering_throttle
+        ctrl_term=self.throttle_controller(self.position.z)
+        throttle =  ctrl_term + self.hovering_throttle
         state= [self.ThrottleDes.z, self.position.z, throttle ]
-        print("altitude_desired: %f, position_z: %f, throttle: %f".format(self.ThrottleDes.z, self.position.z, throttle))
+        #print("altitude_desired: %f, position_z: %f, throttle: %f".format(self.ThrottleDes.z, self.position.z, throttle))
 
         dt, bool_, now, last_time= self.throttle_controller.get_time_data()
-        print("dt, bool_, now, last_time",dt, bool_, now, last_time  )
+       # print("dt, bool_, now, last_time",d
+       # t, bool_, now, last_time  )
+        print(ctrl_term,self.ThrottleDes.z, self.position.z, throttle)
         return throttle, state
 
     def position_controller(self):
