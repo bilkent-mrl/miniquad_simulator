@@ -320,12 +320,12 @@ class SubTrajectory():
         self.translation=Vector3()
         #initiate elements
         self.rotation=Vector3()
-        #self.data=MultiDOFJointTrajectoryPoint()
+        self.data=MultiDOFJointTrajectoryPoint()
         
 
     def callback(self, msg):
         """Handle subscriber data."""
-        #print(msg)
+       
         self.data=msg.points[0]
         
         self.translation=self.data.transforms[0].translation
@@ -346,7 +346,7 @@ class SubIMU():
         
         """Read in parameters."""
      
-        self.Sub_to_Topic="ground_truth/imu"
+        self.Sub_to_Topic="imu"
         self.enable = True
         if self.enable:
             self.start()
@@ -437,6 +437,7 @@ class Controller():
         self.orientation=Vector3()
         self.filter=RunningAverageFilter(3)
 
+        self.deactivate_position_control=False
 
         self.update(Trajectory,IMU, ODOM)
 
@@ -509,6 +510,8 @@ class Controller():
         self.angularvelocity=IMU.angular_velocity
 
         self.position=ODOM.position
+        self.velocity=ODOM.velocity
+
         
         self.orientation.x, self.orientation.y, self.orientation.z, self.angularvelocity.x, self.angularvelocity.y, self.angularvelocity.z ==self.filter([self.orientation.x, self.orientation.y, self.orientation.z, self.angularvelocity.x, self.angularvelocity.y, self.angularvelocity.z])   
 
@@ -530,12 +533,10 @@ class Controller():
         ctrl_term=self.throttle_controller(self.position.z)
         throttle =  ctrl_term + self.hovering_throttle
         state= [self.ThrottleDes.z, self.position.z, throttle ]
-        #print("altitude_desired: %f, position_z: %f, throttle: %f".format(self.ThrottleDes.z, self.position.z, throttle))
+       
 
         dt, bool_, now, last_time= self.throttle_controller.get_time_data()
-       # print("dt, bool_, now, last_time",d
-       # t, bool_, now, last_time  )
-        print(ctrl_term,self.ThrottleDes.z, self.position.z, throttle)
+    
         return throttle, state
 
     def position_controller(self):
@@ -555,9 +556,10 @@ class Controller():
         PitchDes = np.cos(theta)*V_X_Des + np.sin(theta)*V_Y_Des
         RollDes= - np.sin(theta)*V_X_Des + np.cos(theta)*V_Y_Des
 
-        state=[self.desired_position.x, self.desired_position.y, self.position.x, self.position.y ]
-        #self.attitute_controller_yaw.setpoint= YawDes
-        #dYaw    = self.attitute_controller_yaw(self.orientation.z)
+        state=[self.desired_position.x, self.desired_position.y, self.position.x, self.position.y,self.velocity.x, self.velocity.y]
+
+        
+
 
         return RollDes, PitchDes, state
 
@@ -576,7 +578,6 @@ class Controller():
         
         state = [RollDes, PitchDes, YawDes, self.orientation.x, self.orientation.y, self.orientation.z]
 
-                 
        
         return dRoll, dPitch, dYaw, state
 
@@ -637,6 +638,15 @@ class Controller():
 
 
         RollDes, PitchDes, position_state=self.position_controller()
+
+        if self.deactivate_position_control:
+            RollDes=0
+            PitchDes=0
+            rospy.loginfo_once("Position Control Deactivated")
+            position_state[0]=999   
+            position_state[1]=999
+           
+           
 
         dRollDes, dPitchDes, dYawDes, attitude_state = self.attitude_controller(RollDes, PitchDes, self.YawDes)  #TODO: Add Yaw Control from Trajectory Messages. 
        
@@ -777,7 +787,7 @@ class Controller():
             yaw_rate=config["yaw_rate"]
             self.tuning_inputs=[roll_rate,pitch_rate,yaw_rate]
         
-       
+        self.deactivate_position_control = config["deactivate_position_control"]
         
         return config
      
@@ -879,7 +889,7 @@ def data_handler(data):
     
     #ThrottleDes, Acceleration_z, Throttle, RollDes, PitchDes, YawDes, orientation_x, orientation_y, orientation_z, int_roll, int_pitch, int_yaw, dRollDes, dPitchDes, dYawDes, angularvelocity_x, angularvelocity_y, angularvelocity_z, ddRoll, ddPitch, ddYaw, rate_controller_roll_integral, rate_controller_pitch_integral,rate_controller_yaw_integral,  time = np.transpose(data)
 
-    header="ThrottleDes_z; position_z; throttle ; desired_position_x; desired_position_y; position_x; position_y ;RollDes; PitchDes; orientation_x; orientation_y; dRollDes; dPitchDes; YawRateDes; angularvelocity_x; angularvelocity_y; angularvelocity_z; ddRoll; ddPitch; ddYaw; current_time"
+    header="ThrottleDes_z; position_z; throttle ; desired_position_x; desired_position_y; position_x; position_y ; velocity_x; velocity_y ; RollDes; PitchDes; orientation_x; orientation_y; dRollDes; dPitchDes; YawRateDes; angularvelocity_x; angularvelocity_y; angularvelocity_z; ddRoll; ddPitch; ddYaw; current_time"
 
     #define the directory to save the data. 
     filename =rospy.get_namespace()[1:-1]+"_positioncontroller_log"

@@ -17,13 +17,13 @@ motor_constant: 7.18e-07
 
 altitude_gain: {P: 50, I: 0, D: 30, Output Limits: [-3000, 3000], Integral Term Limit: 1}
 
-position_x_gain: {P: 0.015, I: 0.0, D: 0.06, Output Limits: [-50,50], Integral Term Limit: 1}
-position_y_gain: {P: -0.015, I: -0.0, D: -0.06, Output Limits: [-50, 50], Integral Term Limit: 1}
+position_x_gain: {P: 0.015, I: 0.0, D: 0.06, Output Limits: [-0.30 ,0.30], Integral Term Limit: 1}
+position_y_gain: {P: -0.015, I: -0.0, D: -0.06, Output Limits: [-0.30, 0.30], Integral Term Limit: 1}
 
-attitude_roll_gain: {P: 5.0, I: 0.0, D: 0.01 , Output Limits: [-1000, 1000], Integral Term Limit: 0.001}
-attitude_pitch_gain:  {P: 5.0, I: 0.0, D: 0.01, Output Limits: [-1000, 1000], Integral Term Limit: 0.001}
+attitude_roll_gain: {P: 5.0, I: 0.0, D: 0.01 , Output Limits: [-100, 100], Integral Term Limit: 0.001}
+attitude_pitch_gain:  {P: 5.0, I: 0.0, D: 0.01, Output Limits: [-100, 100], Integral Term Limit: 0.001}
 attitude_yaw_gain:  {P: 5.0, I: 0.0, D: 2, Output Limits: [-100, 100], Integral Term Limit: 1}
 
-angular_rate_roll_gain:  {P: 8.0, I: 0.0, D: 0.02, Output Limits: [-200000, 20000], Integral Term Limit: 0.001}
-angular_rate_pitch_gain:  {P: 8.0, I: 0.0, D: 0.02, Output Limits: [-20000, 20000], Integral Term Limit: 0.001}
-angular_rate_yaw_gain:  {P: 36, I: 0.0, D: 0.1, Output Limits: [-20000, 20000], Integral Term Limit: 1}
+angular_rate_roll_gain:  {P: 8.0, I: 0.0, D: 0.02, Output Limits: [-500, 500], Integral Term Limit: 0.001}
+angular_rate_pitch_gain:  {P: 8.0, I: 0.0, D: 0.02, Output Limits: [-500, 500], Integral Term Limit: 0.001}
+angular_rate_yaw_gain:  {P: 36, I: 0.0, D: 0.1, Output Limits: [-2000, 2000], Integral Term Limit: 1}
